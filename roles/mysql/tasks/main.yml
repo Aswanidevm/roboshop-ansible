@@ -1,27 +1,24 @@
 
-print_31 "disabling mysql"
-dnf module disable mysql -y &>> ${log_file}
-status $?
+- name: Setup MySQL Repo
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
 
-print_32 "copying mysql repo file"
-cp ${code_dir}/config/mysql.repo /etc/yum.repos.d/mysql.repo &>> ${log_file}
-status $?
+- name: Disable MySQL 8
+  ansible.builtin.shell: dnf module disable mysql -y
 
-print_33 "Installing MySQL Server"
-yum install mysql-community-server -y  &>> ${log_file}
-status $?
+- name: Install MySQL 5.7
+  ansible.builtin.yum:
+    name: mysql-community-server
+    state: installed
 
-print_34 "Enable MYSQL Service"
-systemctl enable mysqld &>> ${log_file}
-status $?
+- name: Start MySQL Service
+  ansible.builtin.systemd:
+    name: mysqld
+    state: started
+    enabled: yes
 
-print_35 "Start MySQL Service"
-systemctl start mysqld  &>> ${log_file}
-status $?
 
-print_36 "Set Root Password"
-echo show databases | mysql -uroot -p${mysql_root_password} &>>${log_file}
-if [ $? -ne 0 ]; then
-mysql_secure_installation --set-root-pass ${mysql_root_password}  &>>${log_file}
-fi
-status $?
+- name: Set Root Password
+  ansible.builtin.shell: mysql_secure_installation --set-root-pass {{ lookup('amazon.aws.aws_ssm', '{{env}}.{{component}}.password', region='us-east-1') }}
+  ignore_errors: yes
