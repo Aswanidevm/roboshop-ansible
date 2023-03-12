@@ -1,1 +1,13 @@
-cart.service
+[Unit]
+Description = Cart Service
+[Service]
+User=roboshop
+Environment=REDIS_HOST=redis-dev.myprojecdevops.info
+Environment=CATALOGUE_HOST=catalogue-dev.myprojecdevops.info
+Environment=CATALOGUE_PORT=8080
+ExecStart=/bin/node /app/server.js
+SyslogIdentifier=cart
+
+[Install]
+WantedBy=multi-user.target
+
