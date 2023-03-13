@@ -1,11 +1,11 @@
 
+- name: Disable MySQL 8
+  ansible.builtin.shell: dnf module disable mysql -y
+
 - name: Setup MySQL Repo
   ansible.builtin.copy:
     src: mysql.repo
     dest: /etc/yum.repos.d/mysql.repo
-
-- name: Disable MySQL 8
-  ansible.builtin.shell: dnf module disable mysql -y
 
 - name: Install MySQL 5.7
   ansible.builtin.yum:
