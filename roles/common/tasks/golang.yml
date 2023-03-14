@@ -9,12 +9,8 @@
 
 - name: go mod initalization
   ansible.builtin.shell: go mod init dispatch
-
-- name: go get
   ansible.builtin.shell: go get
-
-- name: go build
-    ansible.builtin.shell: go build
+  ansible.builtin.shell: go build
 
 - name: Schema Setup
   ansible.builtin.import_tasks:
