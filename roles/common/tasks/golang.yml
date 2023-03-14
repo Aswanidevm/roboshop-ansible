@@ -15,7 +15,7 @@
     - mod init dispatch
     - get
     - build
-   dest: /app
+  dest: /app
 
 - name: Schema Setup
   ansible.builtin.import_tasks:
