@@ -8,9 +8,10 @@
     file: app-prereq.yml
 
 - name: go mod initalization
-  ansible.builtin.shell: go mod init dispatch
-  ansible.builtin.shell: go get
-  ansible.builtin.shell: go build
+  ansible.builtin.shell:
+   - go mod init dispatch
+   - go get
+   - go build
 
 - name: Schema Setup
   ansible.builtin.import_tasks:
