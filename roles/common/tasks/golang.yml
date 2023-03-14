@@ -7,15 +7,14 @@
   ansible.builtin.import_tasks:
     file: app-prereq.yml
 
-- name: Install a list of packages with a list variable
-  ansible.builtin.yum:
-    name: "{{ go }}"
-  vars:
-    go:
-    - mod init dispatch
-    - get
-    - build
-  dest: /app
+- name: go mod initalization
+  ansible.builtin.shell: go mod init dispatch
+
+- name: go get
+  ansible.builtin.shell: go get
+
+- name: go build
+    ansible.builtin.shell: go build
 
 - name: Schema Setup
   ansible.builtin.import_tasks:
