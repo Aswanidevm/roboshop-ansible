@@ -5,18 +5,13 @@
 
 - name: App Pre-requisites
   ansible.builtin.import_tasks:
-    file: app-prereq.yml
+    file: app_presetup.yml
 
 - name: go mod initalization
   ansible.builtin.shell: go mod init dispatch; go get; go build
   args:
      chdir: /app
 
-- name: Schema Setup
-  ansible.builtin.import_tasks:
-    file: schema-setup.yml
-  when: schema_type is defined
-
 - name: SystemD Setup
   ansible.builtin.import_tasks:
-    file: systemd-setup.yml
+    file: systemd_setup.yml
