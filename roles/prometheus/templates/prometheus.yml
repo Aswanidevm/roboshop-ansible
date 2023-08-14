@@ -30,7 +30,7 @@ scrape_configs:
         port: 9100
         filters:
         - name: "tag : monitor"
-          value: ["true", "yes"]
+          values: [ "true", "yes" ]
     relabel_configs:
       - source_labels: [__meta_ec2_tag_Name]
         target_label: component
